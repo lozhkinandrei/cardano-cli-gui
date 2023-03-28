@@ -5,6 +5,7 @@ import settings
 import subprocess
 import traceback
 import common_functions
+from config import USE_DOCKER, DOCKER_CONTAINER
 
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (QPushButton, QLabel, QLineEdit, 
@@ -182,6 +183,9 @@ class Developer(QWidget):
         command = "cardano-cli query protocol-parameters " + \
                   net_part + \
                   "--out-file " + self.pp_file_name 
+        
+        if USE_DOCKER:
+            command = f'docker exec -it {DOCKER_CONTAINER} {command}'
 
         if settings.debug_mode:
             print("Command below is defined in py-files/developer.py line 182:")

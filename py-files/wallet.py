@@ -6,6 +6,7 @@ import subprocess
 import traceback
 import common_functions
 
+from config import USE_DOCKER, DOCKER_CONTAINER
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (QPushButton, QLabel, QLineEdit, 
                              QWidget, QGridLayout, QMessageBox,
@@ -190,6 +191,9 @@ class Wallet(QWidget):
                 command = "cardano-cli address key-gen " + \
                           "--verification-key-file " + vkey_name + " " + \
                           "--signing-key-file " + skey_name 
+                
+                if USE_DOCKER:
+                    command = f'docker exec -it {DOCKER_CONTAINER} {command}'
 
                 if settings.debug_mode:
                     print("Command below is defined in py-files/wallet.py line 190:")
@@ -286,6 +290,9 @@ class Wallet(QWidget):
                   "--payment-verification-key-file " + self.vkey_name + " " + \
                   net_part + \
                   "--out-file " + address_name
+        
+        if USE_DOCKER:
+            command = f'docker exec -it {DOCKER_CONTAINER} {command}'
 
         if settings.debug_mode:
             print("Command below is defined in py-files/wallet.py line 285:")
@@ -376,6 +383,9 @@ class Wallet(QWidget):
         command = "cardano-cli address key-hash " + \
                   "--payment-verification-key-file " + self.vkey_name + " " + \
                   "--out-file " + pkh_name
+        
+        if USE_DOCKER:
+            command = f'docker exec -it {DOCKER_CONTAINER} {command}'
         
         if settings.debug_mode:
             print("Command below is defined in py-files/wallet.py line 376:")

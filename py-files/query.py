@@ -10,6 +10,7 @@ from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWidgets import (QPushButton, QLabel, QLineEdit, 
                              QWidget, QGridLayout, QMessageBox,
                              QComboBox, QPlainTextEdit)
+from config import USE_DOCKER, DOCKER_CONTAINER
 
 # Widgets and functions for the query tab
 class Query(QWidget):
@@ -172,6 +173,9 @@ class Query(QWidget):
                   "--address " + self.address + " " + \
                   net_part 
         
+        if USE_DOCKER:
+            command = f'docker exec -it {DOCKER_CONTAINER} {command}'
+        
         if settings.debug_mode:
             print("Command below is defined in py-files/query.py line 172:")
             print(common_functions.format_command(command) + "\n")
@@ -205,6 +209,9 @@ class Query(QWidget):
         command = "cardano-cli query tip " + \
                   net_part 
         
+        if USE_DOCKER:
+            command = f'docker exec -it {DOCKER_CONTAINER} {command}'
+        
         if settings.debug_mode:
             print("Command below is defined in py-files/query.py line 206:")
             print(common_functions.format_command(command) + "\n")
@@ -235,6 +242,9 @@ class Query(QWidget):
             return None
 
         command = "cardano-cli transaction txid --tx-file tx.signed"
+
+        if USE_DOCKER:
+            command = f'docker exec -it {DOCKER_CONTAINER} {command}'
 
         if settings.debug_mode:
             print("Command below is defined in py-files/query.py line 238:")

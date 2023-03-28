@@ -7,6 +7,7 @@ import subprocess
 import traceback
 import common_functions
 
+from config import USE_DOCKER, DOCKER_CONTAINER
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWidgets import (QPushButton, QLabel, QLineEdit, 
                              QWidget, QGridLayout, QRadioButton,
@@ -205,6 +206,9 @@ class Transactions(QWidget):
                   "--address " + self.address + " " + \
                   net_part 
         
+        if USE_DOCKER:
+            command = f'docker exec -it {DOCKER_CONTAINER} {command}'
+        
         if settings.debug_mode:
             print("Command below is defined in py-files/transactions.py line 224:")
             print(common_functions.format_command(command) + "\n")
@@ -354,6 +358,9 @@ class Transactions(QWidget):
             return None
 
         def manage_command(command, msg, debug_msg):
+            if USE_DOCKER:
+                command = f'docker exec -it {DOCKER_CONTAINER} {command}'
+
             if settings.debug_mode:
                 print(debug_msg)
                 commad_single_string = " ".join(command)
