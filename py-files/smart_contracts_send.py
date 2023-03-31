@@ -479,7 +479,7 @@ class Smart_contracts_send(QWidget):
 
         def manage_command(command, msg, debug_msg):
             if USE_DOCKER:
-                command = f'docker exec -it {DOCKER_CONTAINER} {command}'
+                command = f'docker exec -it {DOCKER_CONTAINER}'.split() + command
 
             if settings.debug_mode:
                 print(debug_msg)
