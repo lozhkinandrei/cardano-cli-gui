@@ -554,7 +554,7 @@ class Smart_contracts_receive(QWidget):
 
         def manage_command(command, msg, debug_msg):
             if USE_DOCKER:
-                command = f'docker exec -it {DOCKER_CONTAINER}'.split() + command
+                command = f'docker exec -it {DOCKER_CONTAINER} {command}'
 
             if settings.debug_mode:
                 print(debug_msg)
